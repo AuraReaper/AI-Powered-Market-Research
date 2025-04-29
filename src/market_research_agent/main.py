@@ -24,15 +24,15 @@ def run():
     """
     Run the crew.
     """
+
     inputs = {
-        'company': 'Tata Motars'
+        'company': "Flipkart"
     }
 
     print("🚀 Running the Crew...")
     result = MarketResearchAgentCrew().crew().kickoff(inputs=inputs)
 
-    # Automatically convert markdown to PDF
-    markdown_file = "report.md"  # adjust if using another filename
+    markdown_file = "report.md"
     print("Converting Markdown to PDF using Quarto...")
     convert_md_to_pdf_with_quarto(markdown_file)
 
@@ -41,9 +41,6 @@ def train():
     """
     Train the crew for a given number of iterations.
     """
-    # Load environment variables from .env file in the project root directory
-    dotenv_path = os.path.join(os.path.dirname(__file__), '..', '..', '.env')
-    load_dotenv(dotenv_path)
     inputs = {
         "topic": "AI LLMs"
     }
@@ -57,9 +54,6 @@ def replay():
     """
     Replay the crew execution from a specific task.
     """
-    # Load environment variables from .env file in the project root directory
-    dotenv_path = os.path.join(os.path.dirname(__file__), '..', '..', '.env')
-    load_dotenv(dotenv_path)
     try:
         MarketResearchAgentCrew().crew().replay(task_id=sys.argv[1])
 
@@ -70,9 +64,6 @@ def test():
     """
     Test the crew execution and returns the results.
     """
-    # Load environment variables from .env file in the project root directory
-    dotenv_path = os.path.join(os.path.dirname(__file__), '..', '..', '.env')
-    load_dotenv(dotenv_path)
     inputs = {
         "topic": "AI LLMs"
     }

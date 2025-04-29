@@ -3,11 +3,11 @@ import os
 from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
 from crewai_tools import SerperDevTool
-from crewai_tools import EXASearchTool
+# from crewai_tools import EXASearchTool
 
 
 serper_tool = SerperDevTool()
-exa_tool = EXASearchTool(api_key=os.getenv("EXA_API_KEY"))
+# exa_tool = EXASearchTool(api_key=os.getenv("EXA_API_KEY"))
 
 llm = LLM(model="together_ai/meta-llama/Llama-3.3-70B-Instruct-Turbo",
           api_key=os.environ.get("TOGETHER_API_KEY"),
@@ -41,7 +41,7 @@ class MarketResearchAgentCrew():
 		return Agent(
 			config=self.agents_config['impact_writer'],
 			llm=llm,
-			tools=[exa_tool],
+			tools=[serper_tool],
 			verbose=True
 		)
 
@@ -50,7 +50,7 @@ class MarketResearchAgentCrew():
 		return Agent(
 			config=self.agents_config['use_case_analyst'],
 			llm=llm,
-			tools=[serper_tool, exa_tool],
+			tools=[serper_tool],
 			verbose=True
 		)
 
