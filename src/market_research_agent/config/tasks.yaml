@@ -1,0 +1,87 @@
+research_industry_task:
+  description: >
+    Conduct comprehensive research to understand {company}'s industry and its operations.
+    Using a Web Browser Tool, investigate:
+    - The industry category and segment (e.g., Automotive, Healthcare, Retail)
+    - Key products, services, and strategic focus areas
+    - Vision and product positioning
+    Ensure findings are detailed and aligned with business objectives.
+  expected_output: >
+    A well-organized summary document containing:
+    - {company}'s industry overview
+    - Company's market segment
+    - Key offerings and strategic initiatives
+    - Relevant references and source links
+  agent: industry_researcher
+
+competitor_research:
+  description: >
+    Conduct comprehensive research to understand {company}'s top 3 competitor in the market.
+    Using a Web Browser Tool, investigate:
+    - Identify how {company}'s top 3 competitors are leveraging AI/ML/GenAI technologies.
+    - Give concise summary of the specific AI/ML applications they have implemented.
+    - Highlight measurable benefits or profits they have achieved through these applications.
+    - Analyze how {company} can adopt similar or enhanced AI/ML strategies to drive competitive advantage and profitability.
+  expected_output: >
+    A well-organized summary document containing:
+    - {company}'s name
+    - Concise summary of the specific AI/ML applications they have implemented.
+    - measurable benefits or profits they have achieved through these applications.
+    - how {company} can adopt similar or enhanced AI/ML strategies to drive competitive advantage and profitability.
+
+market_standards_analysis_task:
+  description: >
+    Analyze current AI, ML, and GenAI trends within {company}'s industry sector.
+    Propose tailored use cases that:
+    - Address operational inefficiencies
+    - Improve customer satisfaction
+    - Enhance innovation capabilities
+    Reference market standards from reputable sources like McKinsey, Deloitte, Nexocode where applicable.
+  expected_output: >
+    A detailed list of 8-10 relevant AI/ML/GenAI use cases for {company}.
+    For each use case:
+    - Title
+    - Objective/Use Case
+    - AI Application
+    - Cross-Functional Benefits
+    Support each use case with references where possible.
+  agent: use_case_analyst
+
+resource_collection_task:
+  description: >
+    Collect relevant datasets and supporting assets for the proposed AI/ML/GenAI use cases for {company}.
+    Research credible platforms such as Kaggle, Hugging Face, and GitHub to find high-quality resources.
+
+    Organize the findings into a formal, professionally structured Markdown (.md) report, styled like an industry proposal.
+
+    For each identified AI/ML/GenAI Use Case, include:
+    - A clear and concise Title
+    - A summary of the Objective/Use Case
+    - An explanation of the specific AI Application
+    - A bulleted list of Cross-Functional Benefits
+    - Clickable links to relevant Datasets
+
+    Markdown Formatting Guidelines:
+    - Each Use Case should have its own dedicated section
+    - Use proper Markdown headings (`##`, `###`) and bullet points
+    - Maintain a consistent, professional tone throughout the document
+    - Ensure the structure supports direct conversion to PDF using Quorto
+
+  expected_output: >
+    A cleanly structured, formal Markdown (.md) report organized into the following sections:
+    - {Company} Title: Professional heading style
+    - Business Overview: Brief description of {company} and a bulleted list of its top 3 competitors
+    - AI/ML/GenAI Use Cases for {Company}: Each use case should be presented with:
+      - Title
+      - Description
+      - Objective
+      - AI Application
+      - Cross-Functional Benefits
+      - Clickable Links to Datasets
+
+    The final Markdown should be suitable for direct PDF conversion via the Quorto tool, maintaining clarity and a polished professional format.
+  agent: resource_collector
+
+
+
+
