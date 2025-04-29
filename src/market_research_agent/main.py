@@ -2,12 +2,9 @@
 import sys
 import os
 import subprocess
+from dotenv import load_dotenv
 from market_research_agent.crew import MarketResearchAgentCrew
 
-# This main file is intended to be a way for you to run your
-# crew locally, so refrain from adding unnecessary logic into this file.
-# Replace with inputs you want to test with, it will automatically
-# interpolate any tasks and agents information
 
 def convert_md_to_pdf_with_quarto(markdown_path):
     """
@@ -28,7 +25,7 @@ def run():
     Run the crew.
     """
     inputs = {
-        'company': 'Netflix'
+        'company': 'Tata Motars'
     }
 
     print("🚀 Running the Crew...")
@@ -44,6 +41,9 @@ def train():
     """
     Train the crew for a given number of iterations.
     """
+    # Load environment variables from .env file in the project root directory
+    dotenv_path = os.path.join(os.path.dirname(__file__), '..', '..', '.env')
+    load_dotenv(dotenv_path)
     inputs = {
         "topic": "AI LLMs"
     }
@@ -57,6 +57,9 @@ def replay():
     """
     Replay the crew execution from a specific task.
     """
+    # Load environment variables from .env file in the project root directory
+    dotenv_path = os.path.join(os.path.dirname(__file__), '..', '..', '.env')
+    load_dotenv(dotenv_path)
     try:
         MarketResearchAgentCrew().crew().replay(task_id=sys.argv[1])
 
@@ -67,6 +70,9 @@ def test():
     """
     Test the crew execution and returns the results.
     """
+    # Load environment variables from .env file in the project root directory
+    dotenv_path = os.path.join(os.path.dirname(__file__), '..', '..', '.env')
+    load_dotenv(dotenv_path)
     inputs = {
         "topic": "AI LLMs"
     }
@@ -74,4 +80,15 @@ def test():
         MarketResearchAgentCrew().crew().test(n_iterations=int(sys.argv[1]), openai_model_name=sys.argv[2], inputs=inputs)
 
     except Exception as e:
-        raise Exception(f"An error occurred while replaying the crew: {e}")
+        raise Exception(f"An error occurred while replaying the crew: {e}")\
+
+
+if __name__ == "__main__":
+    import sys
+    # Make sure .env file exists in project root directory
+    dotenv_path = os.path.join(os.path.dirname(__file__), '..', '..', '.env')
+    if not os.path.exists(dotenv_path):
+        print(f"Warning: .env file not found at {dotenv_path}")
+        print("Make sure you have created a .env file with EXA_API_KEY=your_key_here in the project root directory")
+    company = sys.argv[1]
+    run(company)
