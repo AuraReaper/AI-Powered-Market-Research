@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: market-research-api
+    env: docker
+    dockerfilePath: Dockerfile
+    plan: free
+    envVars:
+      - key: EXA_API_KEY
+        sync: false
+      - key: SERPER_API_KEY
+        sync: false
+      - key: TOGETHER_API_KEY
+        sync: false
