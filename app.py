@@ -6,6 +6,8 @@ import subprocess
 from dotenv import load_dotenv
 from datetime import datetime
 
+from starlette.middleware.cors import CORSMiddleware
+
 # Load your crew system
 from src.market_research_agent.crew import MarketResearchAgentCrew
 
@@ -14,6 +16,15 @@ dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
 app = FastAPI()
+
+app.add_middleware(
+	CORSMiddleware,
+	allow_origins=["*"],
+	allow_credentials=True,
+	allow_methods=["*"],
+	allow_headers=["*"],
+)
+
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "outputs")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -48,11 +59,15 @@ async def generate_docs(payload: InputPayload):
 		# Run the crew
 		crew_output = MarketResearchAgentCrew().crew().kickoff(inputs=inputs)
 
+		# for task_output in crew_output.tasks_output:
+		# 	print("====== TASK OUTPUT ======")
+		# 	print("type:", type(task_output))
+		# 	print("keys:", dir(task_output))
+		# 	print("raw:", task_output.raw)
 
-		# Extract the actual strings from each task output
 		outputs = [
-			f"## {task_output.name}\n\n{task_output.raw['output']}"
-			for task_output in crew_output.final_output
+			f"##{task_output.raw}"
+			for task_output in crew_output.tasks_output
 		]
 
 		# Save the markdown result
