@@ -9,12 +9,19 @@ RUN apt-get update && apt-get install -y \
     pandoc \
     git \
     unzip \
+    texlive-latex-base \
+    texlive-fonts-recommended \
+    texlive-fonts-extra \
+    texlive-latex-extra \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Quarto CLI
 RUN curl -L https://quarto.org/download/latest/quarto-linux-amd64.deb -o quarto.deb \
     && apt-get update && apt-get install -y ./quarto.deb \
     && rm quarto.deb
+
+# Install TinyTeX via Quarto CLI
+RUN quarto install tinytex --agree-license --no-prompt
 
 # Copy and install Python dependencies
 COPY requirements.txt .
