@@ -20,8 +20,12 @@ RUN curl -L https://quarto.org/download/latest/quarto-linux-amd64.deb -o quarto.
     && apt-get update && apt-get install -y ./quarto.deb \
     && rm quarto.deb
 
-# Install TinyTeX via Quarto CLI
-RUN quarto install tinytex --agree-license --no-prompt
+# Install TinyTeX manually (not via Quarto)
+RUN curl -sL "https://yihui.org/tinytex/install-unx.sh" | sh -s - \
+    && ~/.TinyTeX/bin/*/tlmgr path add
+
+# Make sure TinyTeX binaries are in PATH
+ENV PATH="/root/bin:/root/.TinyTeX/bin/x86_64-linux:$PATH"
 
 # Copy and install Python dependencies
 COPY requirements.txt .
