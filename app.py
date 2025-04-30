@@ -75,17 +75,17 @@ async def generate_docs(payload: InputPayload):
 			f.write("\n\n".join(outputs))
 
 
-		# Convert to PDF
-		convert_md_to_pdf(markdown_path)
+		# # Convert to PDF
+		# convert_md_to_pdf(markdown_path)
 
 		return {
 			"message": "Files generated successfully.",
 			"markdown_url": f"/download/md/{company}",
-			"pdf_url": f"/download/pdf/{company}"
+			# "pdf_url": f"/download/pdf/{company}"
 		}
 
-	except subprocess.CalledProcessError as e:
-		raise HTTPException(status_code=500, detail=f"PDF conversion failed: {e}")
+	# except subprocess.CalledProcessError as e:
+	# 	raise HTTPException(status_code=500, detail=f"PDF conversion failed: {e}")
 	except Exception as e:
 		raise HTTPException(status_code=500, detail=str(e))
 
@@ -98,9 +98,9 @@ async def download_markdown(company: str):
 	return FileResponse(path, filename=f"{company}.md", media_type='text/markdown')
 
 
-@app.get("/download/pdf/{company}")
-async def download_pdf(company: str):
-	path = os.path.join(OUTPUT_DIR, f"{company}.pdf")
-	if not os.path.exists(path):
-		raise HTTPException(status_code=404, detail="PDF file not found.")
-	return FileResponse(path, filename=f"{company}.pdf", media_type='application/pdf')
+# @app.get("/download/pdf/{company}")
+# async def download_pdf(company: str):
+# 	path = os.path.join(OUTPUT_DIR, f"{company}.pdf")
+# 	if not os.path.exists(path):
+# 		raise HTTPException(status_code=404, detail="PDF file not found.")
+# 	return FileResponse(path, filename=f"{company}.pdf", media_type='application/pdf')
