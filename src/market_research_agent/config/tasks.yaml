@@ -76,12 +76,14 @@ market_standards_analysis_task:
 
 final_proposal_compilation_task:
   description: >
-    Compile a professional Markdown document that:
-    - Includes a clickable Table of Contents
+    Compile a professional HTML document that:
+    - Includes a complete HTML structure with proper DOCTYPE, head, and body tags
+    - Has embedded CSS styling for professional appearance
+    - Includes a clickable Table of Contents with anchor links
     - Summarizes {company}'s business overview
     - Presents the top 3 competitors and their AI/ML benefits
     - Links detailed competitor articles
-    - Lists top 10 AI/ML/GenAI use cases for {company} with:
+    - Lists top 10 AI/ML/GenAI use cases for {company} in a well-formatted HTML table with:
       - Title
       - Description
       - Objective
@@ -89,13 +91,18 @@ final_proposal_compilation_task:
       - Expected Growth/Benefit
       - Cross-Functional Benefits
       - Related articles
-    Ensure the markdown is fully navigable and ready for direct Quarto/PDF conversion.
+    
+    Generate a complete, standalone HTML document that can be viewed in any web browser
+    and easily converted to PDF. Use proper HTML tags, styling, and structure.
   expected_output: >
-    A client-ready, polished markdown (.md) file containing:
-    - Clickable Table of Contents
-    - Company Overview
-    - Competitor Overview
+    A client-ready, polished HTML document containing:
+    - Complete HTML structure (DOCTYPE, html, head, body tags)
+    - Embedded CSS for professional styling
+    - Clickable Table of Contents with anchor navigation
+    - Company Overview section
+    - Competitor Overview section
     - Competitor AI/ML Use Case Articles
-    - 10 Proposed AI/ML Use Cases with References
-  output_file: report.md
+    - 10 Proposed AI/ML Use Cases in a formatted HTML table
+    - All content properly structured with HTML tags
+  output_file: report.html
   agent: proposal_writer

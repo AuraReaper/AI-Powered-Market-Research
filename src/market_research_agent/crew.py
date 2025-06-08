@@ -9,10 +9,10 @@ from crewai_tools import SerperDevTool
 serper_tool = SerperDevTool()
 # exa_tool = EXASearchTool(api_key=os.getenv("EXA_API_KEY"))
 
-llm = LLM(model="together_ai/meta-llama/Llama-3.3-70B-Instruct-Turbo",
-          api_key=os.environ.get("TOGETHER_API_KEY"),
-          base_url="https://api.together.xyz/v1"
-        )
+llm = LLM(
+    model="gemini/gemini-2.0-flash", 
+    api_key=os.environ.get("API_KEY"),
+)
 
 @CrewBase
 class MarketResearchAgentCrew():
