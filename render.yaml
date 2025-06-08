@@ -1,13 +1,40 @@
 services:
   - type: web
-    name: market-research-api
+    name: ai-powered-market-research
     env: docker
     dockerfilePath: Dockerfile
-    plan: free
+    dockerContext: .
+    plan: starter  # Upgrade from free for better performance
     envVars:
-      - key: EXA_API_KEY
+      - key: API_KEY
         sync: false
       - key: SERPER_API_KEY
         sync: false
+      - key: EXA_API_KEY
+        sync: false
       - key: TOGETHER_API_KEY
         sync: false
+      # Enhanced error handling configuration
+      - key: ERROR_HANDLING_ENABLED
+        value: "true"
+      - key: PDF_GENERATION_TIMEOUT
+        value: "120"
+      - key: MAX_COMPANY_NAME_LENGTH
+        value: "100"
+      - key: PYTHONUNBUFFERED
+        value: "1"
+    # Health check endpoint
+    healthCheckPath: /health
+    # Auto-deploy configuration
+    autoDeploy: true
+    buildFilter:
+      paths:
+      - app.py
+      - requirements.txt
+      - Dockerfile
+      - src/**
+    # Disk storage for outputs
+    disk:
+      name: outputs
+      mountPath: /app/outputs
+      sizeGB: 1

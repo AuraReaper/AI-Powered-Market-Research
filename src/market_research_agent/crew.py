@@ -10,7 +10,7 @@ serper_tool = SerperDevTool()
 # exa_tool = EXASearchTool(api_key=os.getenv("EXA_API_KEY"))
 
 llm = LLM(
-    model="gemini/gemini-2.0-flash", 
+    model="gemini/gemini-1.5-flash", 
     api_key=os.environ.get("API_KEY"),
 )
 

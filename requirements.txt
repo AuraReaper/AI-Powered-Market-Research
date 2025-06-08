@@ -1,6 +1,27 @@
-fastapi
-uvicorn
-crewai
+# Core FastAPI and server dependencies
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+gunicorn>=21.2.0
+
+# CrewAI dependencies
+crewai>=0.76.2
 crewai-tools
-python-dotenv
-gunicorn
+
+# Environment and configuration
+python-dotenv>=1.0.0
+
+# Enhanced error handling and validation
+pydantic>=2.0.0
+
+# PDF generation dependencies
+playwright>=1.40.0
+
+# Logging and monitoring
+python-json-logger>=2.0.0
+prometheus-client>=0.19.0
+
+# HTTP client for health checks and external APIs
+httpx>=0.25.0
+
+# Additional utilities
+pathlib>=1.0.1

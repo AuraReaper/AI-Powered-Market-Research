@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, HTMLResponse
+from starlette.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import os
 import subprocess
@@ -13,8 +14,6 @@ import traceback
 from typing import Optional
 import re
 
-from starlette.middleware.cors import CORSMiddleware
-
 # Load your crew system
 from src.market_research_agent.crew import MarketResearchAgentCrew
 
@@ -22,14 +21,18 @@ from src.market_research_agent.crew import MarketResearchAgentCrew
 dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
-app = FastAPI()
+app = FastAPI(
+    title="AI-Powered Market Research API",
+    description="Enhanced API with comprehensive error handling for market research report generation",
+    version="1.0.0"
+)
 
 app.add_middleware(
-	CORSMiddleware,
-	allow_origins=["*"],
-	allow_credentials=True,
-	allow_methods=["*"],
-	allow_headers=["*"],
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "outputs")
@@ -378,3 +381,61 @@ async def download_pdf(company: str):
 	if not os.path.exists(path):
 		raise HTTPException(status_code=404, detail="PDF file not found.")
 	return FileResponse(path, filename=f"{company}.pdf", media_type='application/pdf')
+
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint for Docker and monitoring systems"""
+    try:
+        # Check if outputs directory is accessible
+        if not os.path.exists(OUTPUT_DIR):
+            os.makedirs(OUTPUT_DIR, exist_ok=True)
+        
+        # Basic API functionality check
+        return {
+            "status": "healthy",
+            "service": "ai-powered-market-research",
+            "timestamp": datetime.now().isoformat(),
+            "version": "1.0.0",
+            "features": {
+                "error_handling": True,
+                "pdf_generation": True,
+                "html_generation": True,
+                "enhanced_validation": True
+            },
+            "directories": {
+                "outputs": os.path.exists(OUTPUT_DIR),
+                "writable": os.access(OUTPUT_DIR, os.W_OK)
+            }
+        }
+    except Exception as e:
+        return {
+            "status": "unhealthy",
+            "error": str(e),
+            "timestamp": datetime.now().isoformat()
+        }
+
+
+@app.get("/")
+async def root():
+    """Root endpoint with API information"""
+    return {
+        "message": "AI-Powered Market Research API",
+        "version": "1.0.0",
+        "features": [
+            "Enhanced Error Handling",
+            "PDF Generation with Fallbacks",
+            "HTML Report Generation",
+            "Comprehensive Input Validation",
+            "Multi-format Downloads"
+        ],
+        "endpoints": {
+            "generate": "/generate/",
+            "download_pdf": "/download/pdf/{company}",
+            "download_html": "/download/html/{company}",
+            "download_markdown": "/download/md/{company}",
+            "view_html": "/view/html/{company}",
+            "health": "/health"
+        },
+        "documentation": "/docs"
+    }

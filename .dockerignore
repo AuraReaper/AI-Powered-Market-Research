@@ -1,0 +1,95 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+PIPFILE.lock
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+README.md
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+
+# Documentation
+*.md
+docs/
+
+# Tests
+tests/
+test_*/
+*_test.py
+
+# Coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Environment files (these should be mounted as volumes)
+.env
+.env.local
+.env.*.local
+
+# Node modules (if any)
+node_modules/
+
+# Output files (these should be mounted as volumes)
+outputs/
+
+# Large model files
+*.bin
+*.pkl
+*.model
+

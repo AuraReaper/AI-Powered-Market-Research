@@ -1,0 +1,90 @@
+services:
+  ai-market-research:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+      - ERROR_HANDLING_ENABLED=true
+      - PDF_GENERATION_TIMEOUT=120
+      - MAX_COMPANY_NAME_LENGTH=100
+      # Add your API keys here or use a .env file
+      - API_KEY=${API_KEY}
+      - SERPER_API_KEY=${SERPER_API_KEY}
+      - EXA_API_KEY=${EXA_API_KEY}
+    volumes:
+      # Mount outputs directory for persistence
+      - ./outputs:/app/outputs
+      - ./logs:/app/logs
+      # Mount .env file for local development
+      - ./.env:/app/.env:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Optional: Add a reverse proxy for production
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - ai-market-research
+    restart: unless-stopped
+    profiles:
+      - production
+
+  # Optional: Add monitoring with Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+    restart: unless-stopped
+    profiles:
+      - monitoring
+
+  # Optional: Add Grafana for dashboards
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+    profiles:
+      - monitoring
+
+volumes:
+  grafana-storage:
+
+networks:
+  default:
+    name: ai-market-research-network
+
