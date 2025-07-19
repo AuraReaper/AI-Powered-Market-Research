@@ -1,0 +1,42 @@
+research_industry_task:
+  description: >
+    Research {company} using search tools. Use simple search queries like "{company} business overview", "{company} industry analysis", and "{company} services products". Gather information about their industry category, market segment, key offerings, customer focus, and strategic initiatives. Create a well-structured report with proper source citations.
+  expected_output: >
+    A comprehensive report containing industry overview, market segment analysis, key offerings description, strategic themes, and source references
+  agent: industry_researcher
+
+identify_top_competitors_task:
+  description: >
+    Based on the industry research findings, identify the top 3 direct competitors of {company}. Use search queries like "{company} competitors", "{company} vs competitors", and "top companies in [industry]". Focus on companies with similar market segments and customer bases. Provide clear justification for each selection with source links.
+  expected_output: >
+    A list of 3 competitors with justification for selection, market overlap analysis, customer segment similarities, and source references
+  agent: competitor_researcher
+
+analyze_competitor_ai_strategy_task:
+  description: >
+    Research AI/ML/GenAI strategies of the 3 identified competitors. Use search queries like "[Competitor Name] AI initiatives", "[Competitor Name] artificial intelligence strategy", and "[Competitor Name] machine learning projects". For each company, gather information about their AI tools, business problems addressed, performance improvements, and ROI metrics. Use only simple string queries for search tools.
+  expected_output: >
+    A structured analysis containing competitor names, AI initiatives, business problems solved, measurable benefits or ROI, technology stack details, and source references
+  agent: competitor_researcher
+
+write_competitor_impact_articles_task:
+  description: >
+    Based on the competitor AI research, write 2-3 blog-style articles for each competitor. Each article should focus on one specific AI transformation, explaining the problem solved, AI method used, measurable results achieved, and how {company} can apply similar strategies. Write in Markdown format with clear headers and structure.
+  expected_output: >
+    A Markdown document containing 6-9 articles, each with the structure: Competitor name as main header, use case title, problem description, solution details, results achieved, and application recommendations for {company}
+  agent: impact_writer
+
+propose_ai_use_cases_task:
+  description: >
+    Based on the industry and competitor research findings, propose 10 innovative AI/ML/GenAI use cases specifically for {company}. Research industry-specific AI solutions using simple search queries. Ensure each proposal aligns with {company}'s business operations and customer service goals. Include references to supporting competitor articles when relevant.
+  expected_output: >
+    10 detailed use case proposals, each containing title, description, business objective, AI technology type, expected ROI or impact, and links to relevant competitor analysis articles
+  agent: use_case_analyst
+
+compile_final_proposal_task:
+  description: >
+    Create a comprehensive Markdown document by consolidating all research findings, competitor analysis, impact articles, and use case proposals from previous tasks. Structure the document with a professional title, introduction, table of contents with internal links, and organized sections. Ensure the final document is client-ready and well-formatted.
+  expected_output: >
+    A complete Markdown proposal document with title and introduction, table of contents with anchor links, industry and business analysis section, competitor overview section, impact articles section, and use cases presented in a structured table format
+  output_file: proposal.md
+  agent: proposal_writer

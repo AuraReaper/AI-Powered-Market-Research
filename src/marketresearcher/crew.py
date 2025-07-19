@@ -1,0 +1,106 @@
+from crewai import Agent, Crew, Process, Task, LLM
+from crewai.project import CrewBase, agent, crew, task
+from crewai_tools import SerperDevTool, EXASearchTool
+from config.llm import research_llm, comparison_llm, narrative_llm, strategic_llm, formatting_llm
+from typing import List
+import os
+
+# Tool setup
+serper = SerperDevTool()
+exa = EXASearchTool()
+
+# LLM configuration
+from crewai import LLM
+import os
+
+llm = LLM(
+    model="openrouter/deepseek/deepseek-r1",
+    base_url="https://openrouter.ai/api/v1",
+    api_key=os.getenv("OPENROUTER_API_KEY")
+)
+
+@CrewBase
+class Marketresearcher():
+	"""Marketresearcher crew"""
+
+	# === Agents ===
+	@agent
+	def industry_researcher(self) -> Agent:
+		return Agent(
+			config=self.agents_config['industry_researcher'],
+			tools=[exa, serper],
+			llm=research_llm,
+			verbose=True
+		)
+
+	@agent
+	def competitor_researcher(self) -> Agent:
+		return Agent(
+			config=self.agents_config['competitor_researcher'],
+			tools=[exa, serper],
+			llm=comparison_llm,
+			verbose=True
+		)
+
+	@agent
+	def impact_writer(self) -> Agent:
+		return Agent(
+			config=self.agents_config['impact_writer'],
+			tools=[exa],
+			llm=narrative_llm,
+			verbose=True
+		)
+
+	@agent
+	def use_case_analyst(self) -> Agent:
+		return Agent(
+			config=self.agents_config['use_case_analyst'],
+			tools=[exa],
+			llm=strategic_llm,
+			verbose=True
+		)
+
+	@agent
+	def proposal_writer(self) -> Agent:
+		return Agent(
+			config=self.agents_config['proposal_writer'],
+			tools=[],
+			llm=formatting_llm,
+			verbose=True
+		)
+
+	# === Tasks ===
+	@task
+	def research_industry_task(self) -> Task:
+		return Task(config=self.tasks_config['research_industry_task'])
+
+	@task
+	def identify_top_competitors_task(self) -> Task:
+		return Task(config=self.tasks_config['identify_top_competitors_task'])
+
+	@task
+	def analyze_competitor_ai_strategy_task(self) -> Task:
+		return Task(config=self.tasks_config['analyze_competitor_ai_strategy_task'])
+
+	@task
+	def write_competitor_impact_articles_task(self) -> Task:
+		return Task(config=self.tasks_config['write_competitor_impact_articles_task'])
+
+	@task
+	def propose_ai_use_cases_task(self) -> Task:
+		return Task(config=self.tasks_config['propose_ai_use_cases_task'])
+
+	@task
+	def compile_final_proposal_task(self) -> Task:
+		return Task(config=self.tasks_config['compile_final_proposal_task'])
+
+	# === Crew ===
+	@crew
+	def crew(self) -> Crew:
+		"""Creates the MarketResearchAgent crew"""
+		return Crew(
+			agents=self.agents,
+			tasks=self.tasks,
+			process=Process.sequential,
+			verbose=True
+		)
