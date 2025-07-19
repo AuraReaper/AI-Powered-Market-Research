@@ -14,7 +14,7 @@ from crewai import LLM
 import os
 
 llm = LLM(
-    model="openrouter/meta-llama/llama-3.3-70b-instruct:free",
+    model="openrouter/deepseek/deepseek-r1",
     base_url="https://openrouter.ai/api/v1",
     api_key=os.getenv("OPENROUTER_API_KEY")
 )
@@ -29,7 +29,7 @@ class Marketresearcher():
 		return Agent(
 			config=self.agents_config['industry_researcher'],
 			tools=[exa, serper],
-			llm=comparison_llm,
+			llm=llm,
 			verbose=True
 		)
 
@@ -38,7 +38,7 @@ class Marketresearcher():
 		return Agent(
 			config=self.agents_config['competitor_researcher'],
 			tools=[exa, serper],
-			llm=comparison_llm,
+			llm=llm,
 			verbose=True
 		)
 
@@ -47,7 +47,7 @@ class Marketresearcher():
 		return Agent(
 			config=self.agents_config['impact_writer'],
 			tools=[exa],
-			llm=comparison_llm,
+			llm=llm,
 			verbose=True
 		)
 
@@ -56,7 +56,7 @@ class Marketresearcher():
 		return Agent(
 			config=self.agents_config['use_case_analyst'],
 			tools=[exa],
-			llm=comparison_llm,
+			llm=llm,
 			verbose=True
 		)
 
@@ -65,7 +65,7 @@ class Marketresearcher():
 		return Agent(
 			config=self.agents_config['proposal_writer'],
 			tools=[FileWriterTool()],
-			llm=comparison_llm,
+			llm=llm,
 			verbose=True
 		)
 

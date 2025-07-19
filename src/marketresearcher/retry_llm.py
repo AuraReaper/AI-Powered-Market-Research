@@ -7,8 +7,8 @@ from openai import RateLimitError, APIError
 
 class RetryLLM(LLM):
     def call(self, messages, **kwargs):
-        max_retries = 3
-        base_delay = 10  # seconds
+        max_retries = 2  # Reduced retries to avoid long waits
+        base_delay = 15  # Increased base delay
         
         for attempt in range(max_retries):
             try:
