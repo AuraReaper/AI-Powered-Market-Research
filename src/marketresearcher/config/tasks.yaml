@@ -35,8 +35,8 @@ propose_ai_use_cases_task:
 
 compile_final_proposal_task:
   description: >
-    Create a comprehensive Markdown document by consolidating all research findings, competitor analysis, impact articles, and use case proposals from previous tasks. Structure the document with a professional title, introduction, table of contents with internal links, and organized sections. Ensure the final document is client-ready and well-formatted.
+    Create a comprehensive Markdown proposal by combining all previous outputs. Include: - Title and intro - Table of contents with anchor links - Industry & Business Analysis - Competitor Overview - Blog-style Impact Articles - Structured Use Case Table Keep formatting consistent with Markdown headers and links.
   expected_output: >
-    A complete Markdown proposal document with title and introduction, table of contents with anchor links, industry and business analysis section, competitor overview section, impact articles section, and use cases presented in a structured table format
-  output_file: proposal.md
+    A cleanly structured, client-ready proposal in Markdown containing: - Professional title - Introduction - TOC with anchors - All key sections - Proper formatting for articles and tables
+  output_file: final_proposal.md
   agent: proposal_writer

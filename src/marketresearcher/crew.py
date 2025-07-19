@@ -2,7 +2,7 @@ from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
 from crewai_tools import SerperDevTool, EXASearchTool
 from config.llm import research_llm, comparison_llm, narrative_llm, strategic_llm, formatting_llm
-from typing import List
+from crewai_tools import FileWriterTool
 import os
 
 # Tool setup
@@ -14,7 +14,7 @@ from crewai import LLM
 import os
 
 llm = LLM(
-    model="openrouter/deepseek/deepseek-r1",
+    model="openrouter/meta-llama/llama-3.3-70b-instruct:free",
     base_url="https://openrouter.ai/api/v1",
     api_key=os.getenv("OPENROUTER_API_KEY")
 )
@@ -29,7 +29,7 @@ class Marketresearcher():
 		return Agent(
 			config=self.agents_config['industry_researcher'],
 			tools=[exa, serper],
-			llm=research_llm,
+			llm=comparison_llm,
 			verbose=True
 		)
 
@@ -47,7 +47,7 @@ class Marketresearcher():
 		return Agent(
 			config=self.agents_config['impact_writer'],
 			tools=[exa],
-			llm=narrative_llm,
+			llm=comparison_llm,
 			verbose=True
 		)
 
@@ -56,7 +56,7 @@ class Marketresearcher():
 		return Agent(
 			config=self.agents_config['use_case_analyst'],
 			tools=[exa],
-			llm=strategic_llm,
+			llm=comparison_llm,
 			verbose=True
 		)
 
@@ -64,8 +64,8 @@ class Marketresearcher():
 	def proposal_writer(self) -> Agent:
 		return Agent(
 			config=self.agents_config['proposal_writer'],
-			tools=[],
-			llm=formatting_llm,
+			tools=[FileWriterTool()],
+			llm=comparison_llm,
 			verbose=True
 		)
 
