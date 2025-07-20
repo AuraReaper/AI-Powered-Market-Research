@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: ai-market-researcher
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: ./start.sh
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.5
+      - key: PORT
+        value: 10000

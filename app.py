@@ -59,6 +59,11 @@ def _move_generated_files_to_output_streamlit(crew_instance, company_name: str):
 
 
 def main():
+    # Simple health check endpoint for Render
+    if 'health' in st.query_params:
+        st.write("OK")
+        return
+    
     st.set_page_config(
         page_title="🔬 Strategic AI Research Assistant",
         page_icon="🧠",
