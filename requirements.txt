@@ -26,3 +26,4 @@ streamlit==1.47.0
 # Additional tools that might be needed
 requests>=2.28.0
 pathlib2>=2.3.6
+exa_py>=1.0.0

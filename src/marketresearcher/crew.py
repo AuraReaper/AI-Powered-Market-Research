@@ -8,7 +8,14 @@ import os
 
 # Tool setup
 serper = SerperDevTool()
-exa = EXASearchTool()
+
+# Initialize EXA tool safely for deployment
+try:
+    exa = EXASearchTool()
+except Exception as e:
+    print(f"Warning: EXA tool initialization failed: {e}")
+    # Create a placeholder that won't be used
+    exa = None
 
 # LLM configuration
 from crewai import LLM
@@ -39,36 +46,56 @@ class Marketresearcher():
 	# === Agents ===
 	@agent
 	def industry_researcher(self) -> Agent:
+		# Use available tools, fallback to serper only if exa fails
+		tools = [serper]
+		if exa is not None:
+			tools.append(exa)
 		return Agent(
 			config=self.agents_config['industry_researcher'],
-			tools=[exa, serper],
+			tools=tools,
 			llm=llm,
 			verbose=True
 		)
 
 	@agent
 	def competitor_researcher(self) -> Agent:
+		# Use available tools, fallback to serper only if exa fails
+		tools = [serper]
+		if exa is not None:
+			tools.append(exa)
 		return Agent(
 			config=self.agents_config['competitor_researcher'],
-			tools=[exa, serper],
+			tools=tools,
 			llm=llm,
 			verbose=True
 		)
 
 	@agent
 	def impact_writer(self) -> Agent:
+		# Use available tools, fallback to serper if exa fails
+		tools = []
+		if exa is not None:
+			tools.append(exa)
+		else:
+			tools.append(serper)  # Fallback to serper
 		return Agent(
 			config=self.agents_config['impact_writer'],
-			tools=[exa],
+			tools=tools,
 			llm=llm,
 			verbose=True
 		)
 
 	@agent
 	def use_case_analyst(self) -> Agent:
+		# Use available tools, fallback to serper if exa fails
+		tools = []
+		if exa is not None:
+			tools.append(exa)
+		else:
+			tools.append(serper)  # Fallback to serper
 		return Agent(
 			config=self.agents_config['use_case_analyst'],
-			tools=[exa],
+			tools=tools,
 			llm=llm,
 			verbose=True
 		)
