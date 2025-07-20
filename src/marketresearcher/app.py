@@ -17,6 +17,40 @@ def check_api_keys():
     return missing_vars
 
 
+def _move_generated_files_to_output_streamlit(crew_instance, company_name: str):
+    """Move any generated files from current directory to proper output directory for Streamlit"""
+    import shutil
+    current_dir = Path(".")
+    
+    # List of potential output files that might be generated
+    potential_files = [
+        "final_proposal.md",
+        "comprehensive_ai_proposal.md", 
+        "proposal.md",
+        "report.md"
+    ]
+    
+    moved_files = []
+    
+    for filename in potential_files:
+        file_path = current_dir / filename
+        if file_path.exists():
+            # Generate unique destination path
+            dest_path = crew_instance.output_manager.get_report_path(company_name, filename.replace('.md', ''))
+            
+            try:
+                # Move file to output directory (silently)
+                shutil.move(str(file_path), str(dest_path))
+                moved_files.append(dest_path)
+            except Exception as e:
+                # Only show error messages, not success messages
+                st.warning(f"⚠️ Failed to move {filename}: {e}")
+    
+    # Only show a summary message if files were moved
+    if moved_files:
+        st.success(f"📊 Generated {len(moved_files)} report file(s) successfully")
+
+
 def main():
     st.set_page_config(
         page_title="🔬 Strategic AI Research Assistant",
@@ -74,12 +108,27 @@ def main():
                     time.sleep(0.02)
 
             try:
-                # Create crew instance and run research
+                # Create crew instance and set company name for dynamic output paths
                 crew_instance = Marketresearcher()
+                crew_instance.set_company_name(company)
+                
+                # Run research
                 result = crew_instance.crew().kickoff(inputs={"company": company})
                 st.session_state.research_result = result
                 st.session_state.research_completed = True
                 st.session_state.research_error = None
+                
+                # Post-process: Move generated files to proper output directory
+                _move_generated_files_to_output_streamlit(crew_instance, company)
+                
+                # Save execution metadata (silently)
+                metadata = {
+                    "company": company,
+                    "execution_status": "completed",
+                    "interface": "streamlit",
+                    "agents_used": ["industry_researcher", "competitor_researcher", "impact_writer", "use_case_analyst", "proposal_writer"]
+                }
+                crew_instance.output_manager.save_metadata(company, metadata)
             except Exception as e:
                 st.session_state.research_error = f"{str(e)}\n\nFull traceback:\n{traceback.format_exc()}"
                 st.session_state.research_completed = True

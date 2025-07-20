@@ -28,15 +28,14 @@ write_competitor_impact_articles_task:
 
 propose_ai_use_cases_task:
   description: >
-    Based on the industry and competitor research findings, propose 10 innovative AI/ML/GenAI use cases specifically for {company}. Research industry-specific AI solutions using simple search queries. Ensure each proposal aligns with {company}'s business operations and customer service goals. Include references to supporting competitor articles when relevant.
+    Based on the industry and competitor research findings, propose EXACTLY 10 innovative AI/ML/GenAI use cases specifically for {company}. YOU MUST NUMBER THEM 1 THROUGH 10 with NO GAPS. Research industry-specific AI solutions using simple search queries. Ensure each proposal aligns with {company}'s business operations and customer service goals. Include references to supporting competitor articles when relevant. DO NOT SKIP ANY NUMBERS - include all 10 use cases.
   expected_output: >
-    10 detailed use case proposals, each containing title, description, business objective, AI technology type, expected ROI or impact, and links to relevant competitor analysis articles
+    EXACTLY 10 use case proposals, clearly numbered 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 with NO missing numbers. Each must contain: numbered title, description, business objective, AI technology type, expected ROI or impact, implementation timeline, and references to competitor analysis
   agent: use_case_analyst
 
 compile_final_proposal_task:
   description: >
-    Create a comprehensive Markdown proposal by combining all previous outputs. Include: - Title and intro - Table of contents with anchor links - Industry & Business Analysis - Competitor Overview - Blog-style Impact Articles - Structured Use Case Table Keep formatting consistent with Markdown headers and links.
+    Create a comprehensive Markdown proposal by combining ALL previous outputs. CRITICAL: Ensure all 10 AI use cases (numbered 1-10) are included in the final document with consistent numbering. Include: - Professional title and executive summary - Table of contents with anchor links - Industry & Business Analysis section - Competitor AI Landscape section - AI Impact Case Studies (competitor articles) - Proposed AI Use Cases section (ALL 10 cases, numbered 1-10) - Implementation Roadmap. Verify NO use cases are missing and numbering is sequential 1-10.
   expected_output: >
-    A cleanly structured, client-ready proposal in Markdown containing: - Professional title - Introduction - TOC with anchors - All key sections - Proper formatting for articles and tables
-  output_file: final_proposal.md
+    A complete, professionally formatted Markdown proposal containing: professional title, executive summary, table of contents with working anchor links, industry analysis, competitor benchmarking, impact case studies, ALL 10 AI use cases (numbered 1-10 with NO gaps), implementation timeline, and investment summary. Ensure consistent formatting and no missing sections.
   agent: proposal_writer

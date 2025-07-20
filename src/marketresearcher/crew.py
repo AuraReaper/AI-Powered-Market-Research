@@ -3,6 +3,7 @@ from crewai.project import CrewBase, agent, crew, task
 from crewai_tools import SerperDevTool, EXASearchTool
 from config.llm import research_llm, comparison_llm, narrative_llm, strategic_llm, formatting_llm
 from crewai_tools import FileWriterTool
+from utils.output_manager import get_output_manager
 import os
 
 # Tool setup
@@ -14,14 +15,26 @@ from crewai import LLM
 import os
 
 llm = LLM(
-    model="openrouter/deepseek/deepseek-r1",
-    base_url="https://openrouter.ai/api/v1",
-    api_key=os.getenv("OPENROUTER_API_KEY")
+    model="nvidia_nim/deepseek-ai/deepseek-r1",
+    api_key=os.getenv("NVIDIA_NIM_API_KEY")
 )
 
 @CrewBase
 class Marketresearcher():
 	"""Marketresearcher crew"""
+	
+	def __init__(self):
+		super().__init__()
+		self.output_manager = get_output_manager()
+		self._company_name = None
+	
+	def set_company_name(self, company_name: str):
+		"""Set the company name for dynamic output file generation"""
+		self._company_name = company_name
+	
+	def get_unique_output_path(self, company_name: str) -> str:
+		"""Get unique output path for the given company"""
+		return str(self.output_manager.get_report_path(company_name))
 
 	# === Agents ===
 	@agent

@@ -7,7 +7,7 @@ from retry_llm import RetryLLM
 # Based on the debug output, these models are responding properly
 
 research_llm = RetryLLM(
-    model="mistralai/mistral-small-3.2-24b-instruct:free",
+    model="openrouter/google/gemini-2.0-flash-exp:free",
     base_url="https://openrouter.ai/api/v1",
     api_key=os.getenv("OPENROUTER_API_KEY")
 )
