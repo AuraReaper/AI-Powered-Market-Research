@@ -1,0 +1,43 @@
+graph LR
+    subgraph "🎯 CrewAI Platform"
+        subgraph "Research Layer"
+            A[🏭 Industry<br/>Researcher] 
+            B[⚔️ Competitor<br/>Researcher]
+        end
+        
+        subgraph "Analysis Layer"
+            C[💡 Impact<br/>Writer]
+            D[🎲 Use Case<br/>Analyst] 
+        end
+        
+        subgraph "Output Layer"
+            E[📋 Proposal<br/>Writer]
+        end
+    end
+    
+    subgraph "🛠️ External Tools"
+        F[🔍 SerperDev<br/>Google Search]
+        G[🧠 EXA<br/>Semantic Search]
+        H[📁 FileWriter<br/>Document Gen]
+    end
+    
+    A --> C
+    B --> C
+    A --> D
+    B --> D
+    C --> E
+    D --> E
+    
+    A -.-> F
+    A -.-> G
+    B -.-> F
+    B -.-> G
+    C -.-> G
+    D -.-> G
+    E -.-> H
+    
+    style A fill:#FFE0B2
+    style B fill:#FFE0B2 
+    style C fill:#E1F5FE
+    style D fill:#E1F5FE
+    style E fill:#E8F5E8

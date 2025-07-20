@@ -1,0 +1,82 @@
+classDiagram
+    class MarketResearcher {
+        +agents_config dict
+        +tasks_config dict
+        +industry_researcher() Agent
+        +competitor_researcher() Agent
+        +impact_writer() Agent
+        +use_case_analyst() Agent
+        +proposal_writer() Agent
+        +crew() Crew
+    }
+    
+    class RetryLLM {
+        -model string
+        -base_url string
+        -api_key string
+        -max_retries int
+        -base_delay int
+        +call(messages, kwargs) string
+        +exponential_backoff() float
+        +handle_rate_limit()
+    }
+    
+    class Agent {
+        +role string
+        +goal string
+        +backstory string
+        +tools list
+        +llm LLM
+        +verbose boolean
+        +execute_task(task) string
+    }
+    
+    class Task {
+        +description string
+        +expected_output string
+        +agent Agent
+        +context list
+        +output_file string
+        +execute() string
+    }
+    
+    class Crew {
+        +agents list
+        +tasks list
+        +process Process
+        +verbose boolean
+        +kickoff(inputs) string
+        +train()
+        +test()
+    }
+    
+    class SerperDevTool {
+        +search_query string
+        +num_results int
+        +search(query) dict
+        +format_results() string
+    }
+    
+    class EXASearchTool {
+        +api_key string
+        +search_type string
+        +semantic_search(query) dict
+        +extract_content() string
+    }
+    
+    class FileWriterTool {
+        +file_path string
+        +content string
+        +write_file(content, path) boolean
+        +validate_markdown() boolean
+    }
+    
+    MarketResearcher --> Agent
+    MarketResearcher --> Crew
+    Crew --> Agent
+    Crew --> Task
+    Agent --> RetryLLM
+    Agent --> SerperDevTool
+    Agent --> EXASearchTool
+    Agent --> FileWriterTool
+    Task --> Agent

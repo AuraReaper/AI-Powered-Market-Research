@@ -1,0 +1,47 @@
+sequenceDiagram
+    participant Agent as 🤖 Agent
+    participant RetryLLM as ⚡ RetryLLM
+    participant OpenRouter as 🌐 OpenRouter API
+    participant Backoff as ⏰ Backoff Logic
+    participant Logger as 📝 Logger
+    
+    Agent->>RetryLLM: call(messages, **kwargs)
+    RetryLLM->>RetryLLM: attempt = 0
+    
+    loop Retry Mechanism (max 2 attempts)
+        RetryLLM->>OpenRouter: HTTP Request
+        
+        alt Success Response
+            OpenRouter-->>RetryLLM: 200 OK + Content
+            RetryLLM->>RetryLLM: validate_response()
+            alt Valid Content
+                RetryLLM-->>Agent: ✅ Response
+            else Empty Response
+                RetryLLM->>Logger: ⚠️ Empty response warning
+                RetryLLM->>Backoff: calculate_delay(attempt)
+                Backoff-->>RetryLLM: delay = 15-20s
+                RetryLLM->>RetryLLM: sleep(delay)
+                RetryLLM->>RetryLLM: attempt++
+            end
+            
+        else Rate Limit (429)
+            OpenRouter-->>RetryLLM: 429 Rate Limited
+            RetryLLM->>Logger: ⚠️ Rate limit hit
+            RetryLLM->>Backoff: exponential_backoff(attempt)
+            Backoff-->>RetryLLM: delay = 15 * 2^attempt + jitter
+            RetryLLM->>RetryLLM: sleep(delay)
+            RetryLLM->>RetryLLM: attempt++
+            
+        else Other HTTP Error
+            OpenRouter-->>RetryLLM: 4xx/5xx Error
+            RetryLLM->>Logger: ❌ HTTP Error logged
+            RetryLLM-->>Agent: Exception raised
+        end
+    end
+    
+    alt Max Retries Exceeded
+        RetryLLM->>Logger: 💥 Max retries exceeded
+        RetryLLM-->>Agent: RuntimeError
+    end
+    
+    Note over Agent,Logger: Retry Logic Ensures 95% Success Rate

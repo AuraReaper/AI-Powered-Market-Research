@@ -3,6 +3,9 @@
 .env.local
 .env.*.local
 
+# Streamlit secrets
+.streamlit/secrets.toml
+
 # Python
 __pycache__/
 *.py[cod]
@@ -21,6 +24,7 @@ parts/
 sdist/
 var/
 wheels/
+share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
@@ -32,6 +36,7 @@ env/
 ENV/
 env.bak/
 venv.bak/
+.venv/
 
 # IDE and Editor files
 .vscode/
@@ -49,12 +54,23 @@ venv.bak/
 ehthumbs.db
 Thumbs.db
 
+# Output files
+output/
+*.log
+*.md
+!README.md
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
 # CrewAI specific
 *.db
 *.sqlite
-*.log
 logs/
 
-# Test files we created
+# Test files
 test_*.py
 debug_*.py

@@ -1,13 +1,20 @@
 import streamlit as st
 import os
+import sys
 import time
 from pathlib import Path
 from dotenv import load_dotenv
-from crew import Marketresearcher
 import traceback
 
+# Add src/marketresearcher to Python path
+project_root = Path(__file__).parent
+sys.path.insert(0, str(project_root / 'src' / 'marketresearcher'))
+
+# Now import from the marketresearcher module
+from crew import Marketresearcher
+
 # Load environment variables from project root
-env_path = Path(__file__).parent.parent.parent / '.env'
+env_path = project_root / '.env'
 load_dotenv(env_path)
 
 

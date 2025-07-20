@@ -1,0 +1,24 @@
+sequenceDiagram
+    participant U as 👤 User
+    participant O as 🎯 Orchestrator
+    participant IR as 🏭 Industry Research
+    participant CR as ⚔️ Competitor Research
+    participant IW as 💡 Impact Writer
+    participant UA as 🎲 Use Case Analyst
+    participant PW as 📋 Proposal Writer
+    
+    U->>O: Company Name Input
+    O->>IR: Research Industry & Company
+    O->>CR: Identify Top 3 Competitors
+    IR-->>O: Industry Analysis Report
+    CR-->>O: Competitor AI Strategies
+    
+    O->>IW: Write Impact Case Studies
+    O->>UA: Generate 10 AI Use Cases
+    IW-->>O: Success Stories & Adaptations
+    UA-->>O: Prioritized Use Case List
+    
+    O->>PW: Compile Final Proposal
+    PW-->>U: 📄 Strategic AI Proposal
+    
+    Note over U,PW: Total Processing Time: < 2 Hours

@@ -1,0 +1,31 @@
+flowchart TD
+    A[👤 User Input<br/>Company Name] --> B[🎯 CrewAI Orchestrator]
+    B --> C[🔍 Research Phase]
+    B --> D[📊 Analysis Phase] 
+    B --> E[📝 Synthesis Phase]
+    
+    C --> F[🏭 Industry<br/>Researcher]
+    C --> G[⚔️ Competitor<br/>Researcher]
+    
+    D --> H[💡 Impact<br/>Writer]
+    D --> I[🎲 Use Case<br/>Analyst]
+    
+    E --> J[📋 Proposal<br/>Writer]
+    
+    F --> K[🔍 SerperDev API]
+    F --> L[🧠 EXA Search]
+    G --> K
+    G --> L
+    H --> L
+    I --> L
+    
+    J --> M[📄 Strategic Proposal<br/>final_proposal.md]
+    
+    style A fill:#e1f5fe
+    style B fill:#f3e5f5
+    style M fill:#e8f5e8
+    style F fill:#fff3e0
+    style G fill:#fff3e0
+    style H fill:#fff3e0
+    style I fill:#fff3e0
+    style J fill:#fff3e0

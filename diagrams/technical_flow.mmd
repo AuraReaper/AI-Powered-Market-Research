@@ -1,0 +1,76 @@
+flowchart TD
+    subgraph "🔧 Configuration Layer"
+        A[📄 agents.yaml] --> B[AgentConfig Parser]
+        C[📄 tasks.yaml] --> D[TaskConfig Parser] 
+        E[🔑 .env] --> F[Environment Loader]
+    end
+    
+    subgraph "🚀 Application Layer"
+        G[main.py] --> H[MarketResearcher Class]
+        H --> I[Crew Initialization]
+        I --> J[Agent Factory]
+        J --> K[Task Factory]
+    end
+    
+    subgraph "🤖 Agent Processing Layer"
+        L[Industry Researcher] --> M[RetryLLM Wrapper]
+        N[Competitor Researcher] --> M
+        O[Impact Writer] --> M
+        P[Use Case Analyst] --> M
+        Q[Proposal Writer] --> R[FileWriter Tool]
+    end
+    
+    subgraph "⚡ LLM Management"
+        M --> S{Rate Limit Check}
+        S -->|Yes| T[Exponential Backoff]
+        T --> U[Retry Logic]
+        S -->|No| V[Execute LLM Call]
+        U --> V
+        V --> W[Response Validation]
+    end
+    
+    subgraph "🔍 External APIs"
+        X[SerperDev API] --> Y[Google Search Results]
+        Z[EXA API] --> AA[Semantic Search Results]
+    end
+    
+    subgraph "💾 Data Processing"
+        BB[Context Manager] --> CC[Inter-Agent Communication]
+        CC --> DD[Result Aggregation]
+        DD --> EE[Output Generation]
+    end
+    
+    subgraph "📁 File System"
+        FF[Input Validation] 
+        GG[Markdown Generation]
+        HH[final_proposal.md]
+    end
+    
+    B --> J
+    D --> K
+    F --> M
+    
+    L --> X
+    N --> X
+    L --> Z
+    N --> Z
+    O --> Z
+    P --> Z
+    
+    W --> BB
+    Y --> BB
+    AA --> BB
+    
+    EE --> GG
+    R --> GG
+    GG --> HH
+    
+    G --> FF
+    FF --> H
+    
+    style A fill:#e3f2fd
+    style C fill:#e3f2fd
+    style E fill:#fff3e0
+    style M fill:#f3e5f5
+    style S fill:#ffebee
+    style HH fill:#e8f5e8
